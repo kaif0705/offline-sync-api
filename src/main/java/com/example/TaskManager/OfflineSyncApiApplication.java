@@ -1,0 +1,13 @@
+package com.example.TaskManager;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class OfflineSyncApiApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(OfflineSyncApiApplication.class, args);
+	}
+
+}
