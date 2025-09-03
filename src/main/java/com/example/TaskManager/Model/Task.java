@@ -28,10 +28,10 @@ public class Task {
     private String description;
 
     @Column(nullable = false)
-    private boolean completed = false;
+    private Boolean isCompleted = false;
 
     @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted = false;
+    private Boolean isDeleted = false;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
