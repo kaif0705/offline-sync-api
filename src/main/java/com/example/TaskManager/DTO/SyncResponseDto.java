@@ -1,6 +1,6 @@
 package com.example.TaskManager.DTO;
 
-import com.example.TaskManager.Model.Task;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,8 +8,9 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class SyncResponseDto {
 
-    private List<Task> successfullySyncedTasks;
+    private List<TaskDto> successfullySyncedTasks;
     private List<TaskConflictDto> conflictedTasks;
 }
