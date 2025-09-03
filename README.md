@@ -4,6 +4,32 @@ A robust backend API for a personal task management application, specifically de
 
 The application allows users to create, update, and delete tasks while offline. When connectivity is restored, the app efficiently syncs these changes to the server, intelligently handling potential data conflicts.
 
+# Design Notes & Reflections
+
+This section provides some context on the implementation of this project, including the tools used, challenges faced, and the trade-offs that were made.
+
+## Tools and Resources
+
+* **IDE:** IntelliJ IDEA for Java development.
+* **API Testing:** Postman was used extensively to test every endpoint, especially the complex batch sync functionality.
+* **Version Control:** Git and GitHub for source code management.
+* **Spring Initializr:** Used to bootstrap the initial project structure with the required dependencies.
+
+## Interesting Challenges and Solutions
+
+1.  **Shifting the "Source of Truth"**: The biggest conceptual challenge was moving away from a traditional server-authoritative model. In an offline-first app, the client must be the source of truth for when an action occurred.
+    * **Solution**: The design mandates that clients generate their own **UUIDs** and **timestamps** (`createdAt`, `updatedAt`). The server respects these client-provided values. This is the only way the "last-write-wins" logic can function correctly.
+
+2.  **Ensuring Atomic and Efficient Sync**: Syncing changes one by one would be slow and inefficient, especially over a poor connection. A single network failure could leave the data in an inconsistent state.
+    * **Solution**: A single `/api/sync/batch` endpoint was created. This allows the client to send all its offline changes in one atomic request. The server processes the entire batch, which is more efficient and robust.
+
+
+## Implementation Trade-offs
+
+1.  **Database Choice (H2 In-Memory)**:
+    * **Choice**: The H2 in-memory database was used to make the project self-contained and easy for anyone to run without external dependencies.
+    * **Trade-off**: H2 is not suitable for production as all data is lost when the application restarts. In a real-world scenario, this would be replaced with a persistent database like PostgreSQL or MySQL with no changes to the application code, only the `application.properties` configuration.
+
 # Core Features
 1. Standard REST API: Full CRUD (Create, Read, Update, Delete) functionality for managing tasks when online.
 
